@@ -21,7 +21,7 @@ const chatRoom1 = chatRoomData[0];
 const chatRoom2 = chatRoomData[1];
 export default function Messages() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <View style={{ flex: 1 }}>
       <TopBar />
 
       <View style={{}}>
@@ -39,6 +39,6 @@ export default function Messages() {
           )}
         />
       </View>
-    </SafeAreaView>
+    </View>
   );
 }

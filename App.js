@@ -1,3 +1,5 @@
+import "react-native-gesture-handler";
+
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
 import {
@@ -15,6 +17,7 @@ import Messages from "./src/screens/Messages";
 import Constants from "expo-constants";
 import { useFonts } from "expo-font";
 import { Feather, Fontisto, Entypo, FontAwesome } from "@expo/vector-icons";
+import Navigation from "./navigation";
 
 export default function App() {
   let [fontLoaded] = useFonts({
@@ -23,34 +26,6 @@ export default function App() {
     Regular: require("./fonts/Montserrat-Regular.otf"),
   });
 
-  const [index, setIndexState] = useState(0);
-  const [color, setColor] = useState();
-
-  useEffect(() => {
-    renderItem();
-  }, [fontLoaded]);
-  const renderItem = () => {
-    if (index === 0) {
-      return (
-        <Entypo
-          name="chat"
-          size={20}
-          color="white"
-          style={{ paddingRight: 5 }}
-        />
-      );
-    }
-    if (index === 1) {
-      return (
-        <Entypo
-          name="chat"
-          size={20}
-          color="gray"
-          style={{ paddingRight: 5 }}
-        />
-      );
-    }
-  };
   const routes = [
     {
       key: "first",
@@ -61,17 +36,13 @@ export default function App() {
       title: "Groups",
     },
   ];
-  //console.log(color);
-  const _handleIndexChange = (index) => setIndexState({ index });
 
-  const _renderScene = SceneMap({
-    first: Messages,
-    second: Groups,
-  });
-  if (!fontLoaded) {
-    return null;
-  }
-  return <Messages />;
+  return (
+    <View>
+      <Navigation />
+      <StatusBar />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
