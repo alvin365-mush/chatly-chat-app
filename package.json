@@ -8,8 +8,13 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.15.6",
+    "@react-native-community/netinfo": "^6.0.0",
     "@react-navigation/stack": "^6.0.7",
+    "aws-amplify": "^4.2.4",
+    "aws-amplify-react-native": "^5.0.3",
     "expo": "^42.0.0",
+    "expo-app-loading": "^1.1.2",
     "expo-status-bar": "~1.0.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
@@ -19,7 +24,7 @@
     "react-native-web": "~0.13.12"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "^7.9.0"
   },
   "private": true
 }

@@ -9,14 +9,18 @@ import {
   Image,
 } from "react-native";
 import Constants from "expo-constants";
-import { Feather, Fontisto, Entypo, FontAwesome } from "@expo/vector-icons";
+import { Feather, Fontisto, Entypo, FontAwesome5 } from "@expo/vector-icons";
+import { Auth } from "aws-amplify";
 
 const TopBar = () => {
+  const signOut = () => {
+    Auth.signOut();
+  };
   return (
     <View
       style={{
         marginTop: Constants.statusBarHeight,
-        backgroundColor: "#1D50F8",
+        backgroundColor: "white",
         alignItems: "center",
         justifyContent: "space-between",
         padding: 10,
@@ -24,28 +28,9 @@ const TopBar = () => {
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Feather name="more-vertical" size={24} color="white" />
-      </View>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "Bold",
-            fontSize: 22,
-          }}
-        >
-          Ch
-        </Text>
-        <Fontisto name="hipchat" size={16} color="white" />
-        <Text
-          style={{
-            color: "#fff",
-            fontFamily: "Bold",
-            fontSize: 22,
-          }}
-        >
-          tly
-        </Text>
+        <TouchableOpacity onPress={signOut}>
+          <FontAwesome5 name="sign-out-alt" size={24} color="black" />
+        </TouchableOpacity>
         <Image
           source={{ uri: "https://links.papareact.com/4u4" }}
           style={{
@@ -55,6 +40,27 @@ const TopBar = () => {
             marginHorizontal: 4,
           }}
         />
+      </View>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text
+          style={{
+            color: "#1D50F8",
+            fontFamily: "Bold",
+            fontSize: 22,
+          }}
+        >
+          Ch
+        </Text>
+        <Fontisto name="hipchat" size={16} color="#1D50F8" />
+        <Text
+          style={{
+            color: "#1D50F8",
+            fontFamily: "Bold",
+            fontSize: 22,
+          }}
+        >
+          tly
+        </Text>
       </View>
     </View>
   );

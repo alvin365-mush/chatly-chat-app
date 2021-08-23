@@ -1,0 +1,11 @@
+{
+  "AppSyncApiName": "chatly",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authchatly",
+      "Outputs.UserPoolId"
+    ]
+  }
+}

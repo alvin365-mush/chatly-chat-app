@@ -20,8 +20,7 @@ import InChatScreen from "../src/screens/InChatScreen";
 export default function Navigation({ colorScheme: ColorSchemeName }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+    /* theme={colorScheme === "dark" ? DarkTheme : DefaultTheme} */
     >
       <RootNavigator />
     </NavigationContainer>
@@ -34,17 +33,14 @@ const Stack = createStackNavigator();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Home"
-        component={Messages}
-        options={{ headerTitle: HomeHeader }}
-      />
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={Messages} />
       <Stack.Screen
         name="ChatRoom"
         component={InChatScreen}
         options={{
-          headerTitle: InChatScreen,
+          headerShown: true,
+          headerTitle: ChatRoomHeader,
           headerBackTitleVisible: false,
         }}
       />
@@ -60,7 +56,7 @@ const HomeHeader = (props) => {
 
 const ChatRoomHeader = (props) => {
   const { width } = useWindowDimensions();
-  console.log(props);
+  //console.log(props);
 
   return (
     <View
@@ -68,8 +64,6 @@ const ChatRoomHeader = (props) => {
         flexDirection: "row",
         justifyContent: "space-between",
         width: width - 25,
-        marginLeft: 25,
-        padding: 10,
         alignItems: "center",
       }}
     >
@@ -90,7 +84,7 @@ const ChatRoomHeader = (props) => {
       />
       <Feather
         name="edit-2"
-        size={24}
+        size={21}
         color="black"
         style={{ marginHorizontal: 10 }}
       />

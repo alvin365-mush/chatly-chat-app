@@ -21,16 +21,16 @@ const chatRoom1 = chatRoomData[0];
 const chatRoom2 = chatRoomData[1];
 export default function Messages() {
   return (
-    <View style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1 }}>
       <TopBar />
 
-      <View style={{}}>
+      <View style={{ backgroundColor: "#fefefe" }}>
         <FlatList
           data={chatRoomData}
           renderItem={({ item }) => <Chat chatRoom={item} />}
           ListHeaderComponent={() => (
             <FlatList
-              style={{ height: "13%" }}
+              style={{ height: "15%" }}
               data={chatRoomData}
               renderItem={({ item }) => <Stories chatRoom={item} />}
               showsHorizontalScrollIndicator={false}
@@ -39,6 +39,6 @@ export default function Messages() {
           )}
         />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

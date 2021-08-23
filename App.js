@@ -11,21 +11,29 @@ import {
   Text,
   Image,
 } from "react-native";
-import { TabView, SceneMap } from "react-native-tab-view";
-import Groups from "./src/screens/Groups";
-import Messages from "./src/screens/Messages";
-import Constants from "expo-constants";
+import AppLoading from "expo-app-loading";
 import { useFonts } from "expo-font";
 import { Feather, Fontisto, Entypo, FontAwesome } from "@expo/vector-icons";
 import Navigation from "./navigation";
 
-export default function App() {
+import Amplify, { Hub, Auth, DataStore } from "aws-amplify";
+import { withAuthenticator } from "aws-amplify-react-native";
+import config from "./src/aws-exports";
+Amplify.configure({
+  ...config,
+  Analytics: {
+    disabled: true,
+  },
+});
+
+function App() {
   let [fontLoaded] = useFonts({
     Bold: require("./fonts/Montserrat-ExtraBold.otf"),
     Medium: require("./fonts/Montserrat-Medium.otf"),
     Regular: require("./fonts/Montserrat-Regular.otf"),
   });
 
+  Auth.currentAuthenticatedUser().then(console.log);
   const routes = [
     {
       key: "first",
@@ -36,14 +44,17 @@ export default function App() {
       title: "Groups",
     },
   ];
+  if (!fontLoaded) {
+    return <AppLoading />;
+  }
 
   return (
-    <View>
+    <SafeAreaView style={{ flex: 1 }}>
       <Navigation />
-      <StatusBar />
-    </View>
+    </SafeAreaView>
   );
 }
+export default withAuthenticator(App);
 
 const styles = StyleSheet.create({
   container: {
