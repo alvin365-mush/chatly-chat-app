@@ -16,6 +16,7 @@ import { Feather } from "@expo/vector-icons";
 import TopBar from "../components/TopBar";
 import Messages from "../src/screens/Messages";
 import InChatScreen from "../src/screens/InChatScreen";
+import UsersScreen from "../src/screens/UsersScreen";
 
 export default function Navigation({ colorScheme: ColorSchemeName }) {
   return (
@@ -42,6 +43,14 @@ function RootNavigator() {
           headerShown: true,
           headerTitle: ChatRoomHeader,
           headerBackTitleVisible: false,
+        }}
+      />
+      <Stack.Screen
+        name="UsersScreen"
+        component={UsersScreen}
+        options={{
+          title: "Users",
+          headerShown: true,
         }}
       />
     </Stack.Navigator>

@@ -11,8 +11,10 @@ import {
 import Constants from "expo-constants";
 import { Feather, Fontisto, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { Auth } from "aws-amplify";
+import { useRoute, useNavigation } from "@react-navigation/native";
 
 const TopBar = () => {
+  const navigation = useNavigation();
   const signOut = () => {
     Auth.signOut();
   };
@@ -28,18 +30,22 @@ const TopBar = () => {
       }}
     >
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={signOut}>
+        {/* <TouchableOpacity onPress={signOut}>
           <FontAwesome5 name="sign-out-alt" size={24} color="black" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
         <Image
           source={{ uri: "https://links.papareact.com/4u4" }}
           style={{
             width: 30,
             height: 30,
             borderRadius: 20,
-            marginHorizontal: 4,
+            marginHorizontal: 8,
           }}
         />
+        <TouchableOpacity onPress={() => navigation.navigate("UsersScreen")}>
+          <FontAwesome5 name="pencil-alt" size={22} color="#1D50F8" />
+        </TouchableOpacity>
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text

@@ -2,12 +2,12 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 
 const Stories = ({ chatRoom }) => {
-  const user = chatRoom.users[1];
+  const user = chatRoom.users;
   return (
     <View style={styles.container}>
-      <Image source={{ uri: user.imageUri }} style={styles.image} />
+      <Image source={{ uri: user?.imageUri }} style={styles.image} />
       <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
-        {user.name}
+        {user?.name}
       </Text>
     </View>
   );

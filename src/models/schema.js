@@ -104,7 +104,7 @@ export const schema = {
                 "newMessages": {
                     "name": "newMessages",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -404,5 +404,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "f2e3e3e784e75dfcd78a521ed337f3dd"
+    "version": "74cb1a87d89f4af63a0306ba90fbd10e"
 };
