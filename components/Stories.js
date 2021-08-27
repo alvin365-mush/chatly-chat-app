@@ -1,11 +1,30 @@
-import React from "react";
+import { Auth, DataStore } from "aws-amplify";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
+import { ChatRoomUser } from "../src/models";
 
 const Stories = ({ chatRoom }) => {
-  const user = chatRoom.users;
+  const [user, setUser] = useState(null); //the diasplay user
+  const [lastMessage, setLastMessage] = useState();
+  //console.log(user);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const fetchedRoomUsers = (await DataStore.query(ChatRoomUser))
+        .filter((chatRoomUser) => chatRoomUser.chatroom.id === chatRoom.id)
+        .map((chatRoomUser) => chatRoomUser.user);
+      //console.log(fetchedRoomUsers);
+      //setUsers(fetchedRoomUsers);
+      const authUser = await Auth.currentAuthenticatedUser();
+      setUser(
+        fetchedRoomUsers.find((user) => user.id !== authUser.attributes.sub) ||
+          null
+      );
+    };
+    fetchUsers();
+  }, []);
   return (
     <View style={styles.container}>
-      <Image source={{ uri: user?.imageUri }} style={styles.image} />
+      <Image source={{ uri: user?.imageUrl }} style={styles.image} />
       <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
         {user?.name}
       </Text>

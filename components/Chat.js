@@ -9,17 +9,18 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
-import { ChatRoomUser } from "../src/models";
+import { ChatRoomUser, Message } from "../src/models";
 
 const Chat = ({ chatRoom }) => {
   //const [users, setUsers] = useState([]); //users in chat room
   const [user, setUser] = useState(null); //the diasplay user
+  const [lastMessage, setLastMessage] = useState();
   useEffect(() => {
     const fetchUsers = async () => {
       const fetchedRoomUsers = (await DataStore.query(ChatRoomUser))
         .filter((chatRoomUser) => chatRoomUser.chatroom.id === chatRoom.id)
         .map((chatRoomUser) => chatRoomUser.user);
-      console.log(fetchedRoomUsers);
+      //console.log(fetchedRoomUsers);
       //setUsers(fetchedRoomUsers);
       const authUser = await Auth.currentAuthenticatedUser();
       setUser(
@@ -29,9 +30,19 @@ const Chat = ({ chatRoom }) => {
     };
     fetchUsers();
   }, []);
+  useEffect(() => {
+    if (!chatRoom.chatRoomLastMessageId) {
+      return;
+    }
+    DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(
+      setLastMessage
+    );
+  }, []);
+  //console.log(lastMessage.createdAt);
   const navigation = useNavigation();
   const onPress = () => {
-    navigation.navigate("ChatRoom", { id: chatRoom?.id });
+    console.warn(user);
+    navigation.navigate("ChatRoom", { id: chatRoom?.id, user: user });
   };
   if (!user) {
     return <ActivityIndicator />;
@@ -49,10 +60,10 @@ const Chat = ({ chatRoom }) => {
         <View style={styles.right}>
           <View style={styles.row}>
             <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.time}>{chatRoom.lastMessage?.createdAt}</Text>
+            <Text style={styles.time}>{lastMessage?.createdAt}</Text>
           </View>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.message}>
-            {chatRoom.lastMessage?.content}
+            {lastMessage?.content}
           </Text>
         </View>
       </View>

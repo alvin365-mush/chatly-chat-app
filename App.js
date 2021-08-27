@@ -32,8 +32,8 @@ function App() {
     Medium: require("./fonts/Montserrat-Medium.otf"),
     Regular: require("./fonts/Montserrat-Regular.otf"),
   });
-
-  Auth.currentAuthenticatedUser().then(console.log);
+  const [userLoading, setUserLoading] = useState(true);
+  //Auth.currentAuthenticatedUser().then(console.log);
   const routes = [
     {
       key: "first",
@@ -44,7 +44,21 @@ function App() {
       title: "Groups",
     },
   ];
-  if (!fontLoaded) {
+  /* useEffect(() => {
+    // Create listener
+    const listener = Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if (event === "modelSynced" && data?.model?.name === "ChatRoom") {
+        console.log(`Model finished sync: ${data.model.name}`);
+        setUserLoading(false);
+        //setMe(user);
+      }
+    });
+    // Remove listener
+    return () => listener();
+  }, []); */
+
+  if (!fontLoaded && userLoading) {
     return <AppLoading />;
   }
 

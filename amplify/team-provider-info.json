@@ -18,7 +18,7 @@
       "function": {
         "chatlyPostConfirmation": {
           "deploymentBucketName": "amplify-chatly-staging-132930-deployment",
-          "s3Key": "amplify-builds/chatlyPostConfirmation-4c53705a346a79534235-build.zip"
+          "s3Key": "amplify-builds/chatlyPostConfirmation-6e744268523161395039-build.zip"
         }
       }
     }

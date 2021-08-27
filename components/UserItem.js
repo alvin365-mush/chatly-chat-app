@@ -6,22 +6,33 @@ import { ChatRoom, ChatRoomUser, User } from "../src/models";
 
 const UserItem = ({ user }) => {
   const navigation = useNavigation();
+  console.log(user);
   const onPress = async () => {
-    //create chat room
+    // TODO if there is already a chat room between these 2 users
+    // then redirect to the existing chat room
+    // otherwise, create a new chatroom with these users.
+
+    // Create a chat room
     const newChatRoom = await DataStore.save(new ChatRoom({ newMessages: 0 }));
-    //connet auth user with the chatroom
+
+    // connect authenticated user with the chat room
     const authUser = await Auth.currentAuthenticatedUser();
     const dbUser = await DataStore.query(User, authUser.attributes.sub);
-    //svae chat participant
     await DataStore.save(
-      new ChatRoomUser({ user: dbUser, chatroom: newChatRoom })
+      new ChatRoomUser({
+        user: dbUser,
+        chatroom: newChatRoom,
+      })
     );
 
-    //connet clicked user with the chatroom
-    //svae chat participant
-    await DataStore.save(new ChatRoomUser({ user, chatroom: newChatRoom }));
+    // connect clicked user with the chat room
+    await DataStore.save(
+      new ChatRoomUser({
+        user,
+        chatroom: newChatRoom,
+      })
+    );
 
-    //then
     navigation.navigate("ChatRoom", { id: newChatRoom.id });
   };
 

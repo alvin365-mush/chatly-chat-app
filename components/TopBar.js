@@ -10,12 +10,13 @@ import {
 } from "react-native";
 import Constants from "expo-constants";
 import { Feather, Fontisto, Entypo, FontAwesome5 } from "@expo/vector-icons";
-import { Auth } from "aws-amplify";
+import { Auth, DataStore } from "aws-amplify";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
 const TopBar = () => {
   const navigation = useNavigation();
-  const signOut = () => {
+  const signOut = async () => {
+    /* await DataStore.clear(); */
     Auth.signOut();
   };
   return (
@@ -29,11 +30,15 @@ const TopBar = () => {
         flexDirection: "row",
       }}
     >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        {/* <TouchableOpacity onPress={signOut}>
-          <FontAwesome5 name="sign-out-alt" size={24} color="black" />
-        </TouchableOpacity> */}
-
+      <TouchableOpacity onPress={signOut}>
+        <FontAwesome5 name="sign-out-alt" size={24} color="#1D50F8" />
+      </TouchableOpacity>
+      <View
+        style={{
+          flexDirection: "row",
+          alignSelf: "center",
+        }}
+      >
         <Image
           source={{ uri: "https://links.papareact.com/4u4" }}
           style={{
@@ -43,9 +48,9 @@ const TopBar = () => {
             marginHorizontal: 8,
           }}
         />
-        <TouchableOpacity onPress={() => navigation.navigate("UsersScreen")}>
+        {/* <TouchableOpacity onPress={() => navigation.navigate("UsersScreen")}>
           <FontAwesome5 name="pencil-alt" size={22} color="#1D50F8" />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <View style={{ flexDirection: "row", alignItems: "center" }}>
         <Text

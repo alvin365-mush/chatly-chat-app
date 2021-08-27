@@ -78,12 +78,12 @@ const ChatRoomHeader = (props) => {
     >
       <Image
         source={{
-          uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.jpg",
+          uri: props?.children?.user?.imageUrl,
         }}
         style={{ width: 30, height: 30, borderRadius: 30 }}
       />
       <Text style={{ flex: 1, marginLeft: 10, fontWeight: "bold" }}>
-        {props.children}
+        {props?.children?.user?.name}
       </Text>
       <Feather
         name="camera"

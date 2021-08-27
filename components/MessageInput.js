@@ -9,15 +9,37 @@ import {
   Platform,
 } from "react-native";
 import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
+import { DataStore } from "@aws-amplify/datastore";
+import { Auth } from "aws-amplify";
+import { ChatRoom, Message } from "../src/models";
 
 const blue = "#1D50F8";
 const gray = "lightgrey";
 
-const MessageInput = () => {
+const MessageInput = ({ chatRoom }) => {
   const [message, setMessage] = useState("");
-  const sendMessage = () => {
-    console.warn("sending");
+  //console.log("MI CHat", chatRoom);
+  const sendMessage = async () => {
+    const user = await Auth.currentAuthenticatedUser();
+    const newMessage = await DataStore.save(
+      new Message({
+        content: message,
+        userID: user.attributes.sub,
+        chatroomID: chatRoom.id,
+      })
+    ).then(console.warn("sending"));
+    //console.warn(newMessage);
+    updateLastMsg(newMessage);
+    //console.warn("sending");
     setMessage("");
+  };
+  const updateLastMsg = async (newMessage) => {
+    await DataStore.save(
+      ChatRoom.copyOf(chatRoom, (updatedChatRoom) => {
+        updatedChatRoom.LastMessage = newMessage;
+      })
+    );
+    console.warn("Updating ");
   };
   const onPress = () => {
     if (message) {

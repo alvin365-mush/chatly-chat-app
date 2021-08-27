@@ -19,6 +19,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+    "react-native-floating-action": "^1.22.0",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-tab-view": "^3.0.1",
     "react-native-web": "~0.13.12"

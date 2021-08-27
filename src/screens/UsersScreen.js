@@ -8,20 +8,25 @@ import Chat from "../../components/Chat";
 import { DataStore } from "@aws-amplify/datastore";
 import { User } from "../models";
 import UserItem from "../../components/UserItem";
+import { Auth } from "aws-amplify";
 
 export default function UsersScreen() {
   const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    DataStore.query(User).then(setUsers);
-  }, []);
   /* useEffect(() => {
+    DataStore.query(User).then(setUsers);
+  }, []); */
+  //console.log(users);
+  useEffect(() => {
     const fetchUsers = async () => {
-      const fetchedUsers = await DataStore.query(User);
+      const userData = await Auth.currentAuthenticatedUser();
+      const fetchedUsers = (await DataStore.query(User)).filter(
+        (user) => user.id !== userData.attributes.sub
+      );
       setUsers(fetchedUsers);
     };
     fetchUsers();
-  }, []); */
+  }, []);
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>
       <View style={{ backgroundColor: "#fefefe", paddingVertical: 10 }}>
