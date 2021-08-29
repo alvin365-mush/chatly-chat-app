@@ -12,12 +12,14 @@ import { Ionicons, FontAwesome5, FontAwesome } from "@expo/vector-icons";
 import { DataStore } from "@aws-amplify/datastore";
 import { Auth } from "aws-amplify";
 import { ChatRoom, Message } from "../src/models";
+import EmojiSelector from "react-native-emoji-selector";
 
 const blue = "#1D50F8";
 const gray = "lightgrey";
 
 const MessageInput = ({ chatRoom }) => {
   const [message, setMessage] = useState("");
+  const [emojiKey, setEmojiKey] = useState(false);
   //console.log("MI CHat", chatRoom);
   const sendMessage = async () => {
     const user = await Auth.currentAuthenticatedUser();
@@ -31,6 +33,7 @@ const MessageInput = ({ chatRoom }) => {
     //console.warn(newMessage);
     updateLastMsg(newMessage);
     //console.warn("sending");
+    setEmojiKey(false);
     setMessage("");
   };
   const updateLastMsg = async (newMessage) => {
@@ -48,44 +51,59 @@ const MessageInput = ({ chatRoom }) => {
   };
   return (
     <KeyboardAvoidingView
-      style={styles.root}
+      style={[styles.root, { height: emojiKey ? "50%" : "auto" }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <View style={styles.inputContainer}>
-        <FontAwesome
-          name="camera-retro"
-          size={24}
-          color="#595959"
-          style={{ marginRight: 10 }}
-        />
-        <TextInput
-          style={styles.textInput}
-          placeholder="Enter Message..."
-          value={message}
-          onChangeText={(text) => setMessage(text)}
-        />
-
-        <FontAwesome5 name="microphone" size={24} color="#595959" />
-      </View>
-      <TouchableOpacity onPress={onPress}>
-        <View style={styles.buttonContainer}>
-          {message ? (
-            <Ionicons
-              name="ios-send-sharp"
+      <View style={styles.row}>
+        <View style={styles.inputContainer}>
+          <TouchableOpacity
+            onPress={() => setEmojiKey((currentValue) => !currentValue)}
+          >
+            <FontAwesome5
+              name="smile"
               size={24}
-              color="white"
-              style={{ marginRight: -4 }}
+              color="#595959"
+              style={{ marginRight: 10 }}
             />
-          ) : (
-            <Ionicons
-              name="md-add"
-              size={29}
-              color="white"
-              style={{ justifyContent: "center" }}
-            />
-          )}
+          </TouchableOpacity>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Enter Message..."
+            value={message}
+            onChangeText={(text) => setMessage(text)}
+          />
+
+          <FontAwesome5 name="microphone" size={24} color="#595959" />
         </View>
-      </TouchableOpacity>
+
+        <TouchableOpacity onPress={onPress}>
+          <View style={styles.buttonContainer}>
+            {message ? (
+              <Ionicons
+                name="ios-send-sharp"
+                size={24}
+                color="white"
+                style={{ marginRight: -4 }}
+              />
+            ) : (
+              <Ionicons
+                name="md-add"
+                size={29}
+                color="white"
+                style={{ justifyContent: "center" }}
+              />
+            )}
+          </View>
+        </TouchableOpacity>
+      </View>
+      {emojiKey && (
+        <EmojiSelector
+          onEmojiSelected={(emoji) =>
+            setMessage((currentMessage) => currentMessage + emoji)
+          }
+          columns={8}
+        />
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -93,7 +111,8 @@ const MessageInput = ({ chatRoom }) => {
 export default MessageInput;
 
 const styles = StyleSheet.create({
-  root: { flexDirection: "row" },
+  root: { flexDirection: "column" },
+  row: { flexDirection: "row" },
   inputContainer: {
     backgroundColor: "#f2f2f2",
     borderColor: "lightgrey",

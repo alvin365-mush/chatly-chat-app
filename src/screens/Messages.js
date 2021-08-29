@@ -47,7 +47,7 @@ export default function Messages() {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>
       <TopBar />
 
-      <View style={{ backgroundColor: "#fefefe" }}>
+      <View style={{ backgroundColor: "#fefefe", marginTop: 5 }}>
         <FlatList
           data={chatRoomData}
           renderItem={({ item }) => <Chat chatRoom={item} />}

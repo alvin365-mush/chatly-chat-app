@@ -17,6 +17,9 @@ import TopBar from "../components/TopBar";
 import Messages from "../src/screens/Messages";
 import InChatScreen from "../src/screens/InChatScreen";
 import UsersScreen from "../src/screens/UsersScreen";
+import { DataStore } from "aws-amplify";
+import { ChatRoomUser } from "../src/models";
+import InChatHeader from "./InChatHeader";
 
 export default function Navigation({ colorScheme: ColorSchemeName }) {
   return (
@@ -39,11 +42,11 @@ function RootNavigator() {
       <Stack.Screen
         name="ChatRoom"
         component={InChatScreen}
-        options={{
+        options={({ route, navigation }) => ({
           headerShown: true,
-          headerTitle: ChatRoomHeader,
+          headerTitle: () => <InChatHeader id={route.params?.id} />,
           headerBackTitleVisible: false,
-        }}
+        })}
       />
       <Stack.Screen
         name="UsersScreen"
@@ -63,10 +66,30 @@ const HomeHeader = (props) => {
   return <TopBar />;
 };
 
-const ChatRoomHeader = (props) => {
+const ChatRoomHeader = ({ id, children }) => {
   const { width } = useWindowDimensions();
   //console.log(props);
+  const [user, setUser] = React.useState(null); //the diasplay user
 
+  React.useEffect(() => {
+    if (!id) {
+      return;
+    }
+    const fetchUsers = async () => {
+      const fetchedRoomUsers = (await DataStore.query(ChatRoomUser))
+        .filter((chatRoomUser) => chatRoomUser.chatroom.id === id)
+        .map((chatRoomUser) => chatRoomUser.user);
+      //console.log(fetchedRoomUsers);
+      //setUsers(fetchedRoomUsers);
+      const authUser = await Auth.currentAuthenticatedUser();
+      setUser(
+        fetchedRoomUsers.find((user) => user.id !== authUser.attributes.sub) ||
+          null
+      );
+    };
+    fetchUsers();
+  }, []);
+  console.log(user);
   return (
     <View
       style={{
@@ -78,12 +101,12 @@ const ChatRoomHeader = (props) => {
     >
       <Image
         source={{
-          uri: props?.children?.user?.imageUrl,
+          uri: user?.imageUrl,
         }}
         style={{ width: 30, height: 30, borderRadius: 30 }}
       />
       <Text style={{ flex: 1, marginLeft: 10, fontWeight: "bold" }}>
-        {props?.children?.user?.name}
+        {user?.name}
       </Text>
       <Feather
         name="camera"

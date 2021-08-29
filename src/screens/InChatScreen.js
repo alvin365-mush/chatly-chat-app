@@ -20,9 +20,9 @@ const InChatScreen = () => {
   const navigation = useNavigation();
   const route = useRoute();
   //console.warn("Displaying", route?.params?.id);
-  navigation.setOptions({
+  /* navigation.setOptions({
     title: route?.params,
-  });
+  }); */
   //console.warn(route?.params);
   useEffect(() => {
     fetchChatRooms();
@@ -68,7 +68,7 @@ const InChatScreen = () => {
   };
   const fetchMessages = async () => {
     if (!chatRoom) {
-      console.error("Couldnt find chat room with id");
+      //console.error("Couldnt find chat room with id");
       return;
     }
     const fetchedMessages = await DataStore.query(
@@ -79,7 +79,7 @@ const InChatScreen = () => {
         sort: (message) => message.createdAt(SortDirection.DESCENDING),
       }
     );
-    console.log(fetchedMessages);
+    //console.log(fetchedMessages);
     setMessages(fetchedMessages);
   };
   if (!chatRoom) {

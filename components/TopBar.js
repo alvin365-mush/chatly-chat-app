@@ -12,13 +12,24 @@ import Constants from "expo-constants";
 import { Feather, Fontisto, Entypo, FontAwesome5 } from "@expo/vector-icons";
 import { Auth, DataStore } from "aws-amplify";
 import { useRoute, useNavigation } from "@react-navigation/native";
+import { User } from "../src/models";
 
 const TopBar = () => {
   const navigation = useNavigation();
+  const [user, setUser] = useState("");
   const signOut = async () => {
     /* await DataStore.clear(); */
     Auth.signOut();
   };
+  useEffect(() => {
+    const fetchUser = async () => {
+      const userData = await Auth.currentAuthenticatedUser();
+      const fetchedUsers = await DataStore.query(User, userData.attributes.sub);
+      setUser(fetchedUsers);
+    };
+    fetchUser();
+  }, []);
+  //console.log("user", user?.imageUrl);
   return (
     <View
       style={{
@@ -28,6 +39,7 @@ const TopBar = () => {
         justifyContent: "space-between",
         padding: 10,
         flexDirection: "row",
+        elevation: 0.2,
       }}
     >
       <TouchableOpacity onPress={signOut}>
@@ -40,7 +52,7 @@ const TopBar = () => {
         }}
       >
         <Image
-          source={{ uri: "https://links.papareact.com/4u4" }}
+          source={{ uri: user?.imageUrl }}
           style={{
             width: 30,
             height: 30,

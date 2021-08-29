@@ -10,6 +10,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Auth, DataStore } from "aws-amplify";
 import { ChatRoomUser, Message } from "../src/models";
+import moment from "moment";
 
 const Chat = ({ chatRoom }) => {
   //const [users, setUsers] = useState([]); //users in chat room
@@ -41,12 +42,14 @@ const Chat = ({ chatRoom }) => {
   //console.log(lastMessage.createdAt);
   const navigation = useNavigation();
   const onPress = () => {
-    console.warn(user);
+    //console.warn(user);
     navigation.navigate("ChatRoom", { id: chatRoom?.id, user: user });
   };
   if (!user) {
     return <ActivityIndicator />;
   }
+
+  const time = moment(lastMessage?.createdAt).from(moment());
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -59,8 +62,10 @@ const Chat = ({ chatRoom }) => {
 
         <View style={styles.right}>
           <View style={styles.row}>
-            <Text style={styles.name}>{user.name}</Text>
-            <Text style={styles.time}>{lastMessage?.createdAt}</Text>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
+              {user.name}
+            </Text>
+            <Text style={styles.time}>{time}</Text>
           </View>
           <Text numberOfLines={1} ellipsizeMode="tail" style={styles.message}>
             {lastMessage?.content}
@@ -117,6 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 17,
     marginBottom: 3,
+    maxWidth: "50%",
   },
   time: { color: "gray" },
   message: { color: "gray", flex: 1, paddingBottom: 2 },
