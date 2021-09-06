@@ -6,8 +6,9 @@ import TopBar from "../../components/TopBar";
 import Chat from "../../components/Chat";
 
 import Stories from "../../components/Stories";
-import { ChatRoom, ChatRoomUser } from "../models";
-import { Auth, DataStore } from "aws-amplify";
+import { ChatRoom, ChatRoomUser, Message } from "../models";
+import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { FloatingAction } from "react-native-floating-action";
 import { useRoute, useNavigation } from "@react-navigation/native";
 
@@ -30,18 +31,6 @@ export default function Messages() {
   }, []);
 
   //console.log(chatRoomData);
-  /* useEffect(() => {
-    const subscription = DataStore.observe(ChatRoomUser).subscribe(
-      (chatRoom) => {
-        //console.log(chatRoom.model, chatRoom.opType, chatRoom.element);
-        if (chatRoom.model === ChatRoomUser && chatRoom.opType === "INSERT") {
-          fetchChatRooms();
-        }
-      }
-    );
-
-    return () => subscription.unsubscribe();
-  }, []); */
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fefefe" }}>

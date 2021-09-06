@@ -12,7 +12,8 @@ import MessageComponent from "../../components/MessageComponent";
 //import textMsg from "../../assets/TextMsg";
 import MessageInput from "../../components/MessageInput";
 import { useRoute, useNavigation } from "@react-navigation/native";
-import { DataStore, SortDirection } from "aws-amplify";
+import { SortDirection } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { ChatRoom, Message } from "../models";
 const InChatScreen = () => {
   const [messages, setMessages] = useState([]);
@@ -32,7 +33,7 @@ const InChatScreen = () => {
   }, [chatRoom]);
   useEffect(() => {
     const subscription = DataStore.observe(Message).subscribe((msg) => {
-      console.log(msg.model, msg.opType, msg.element);
+      //console.log(msg.model, msg.opType, msg.element);
       if (msg.model === Message && msg.opType === "INSERT") {
         setMessages((existingMessage) => [msg.element, ...existingMessage]);
       }
@@ -85,6 +86,7 @@ const InChatScreen = () => {
   if (!chatRoom) {
     <ActivityIndicator />;
   }
+  //console.log(messages);
   return (
     <SafeAreaView style={styles.page}>
       <FlatList

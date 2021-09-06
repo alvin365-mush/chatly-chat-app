@@ -16,9 +16,12 @@ import { useFonts } from "expo-font";
 import { Feather, Fontisto, Entypo, FontAwesome } from "@expo/vector-icons";
 import Navigation from "./navigation";
 
-import Amplify, { Hub, Auth, DataStore } from "aws-amplify";
+import Amplify, { Hub, Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { withAuthenticator } from "aws-amplify-react-native";
 import config from "./src/aws-exports";
+import SplashScreen from "./components/SplashScreen";
+import { Message } from "./src/models";
 Amplify.configure({
   ...config,
   Analytics: {
@@ -44,19 +47,33 @@ function App() {
       title: "Groups",
     },
   ];
-  /* useEffect(() => {
+  useEffect(() => {
     // Create listener
     const listener = Hub.listen("datastore", async (hubData) => {
       const { event, data } = hubData.payload;
-      if (event === "modelSynced" && data?.model?.name === "ChatRoom") {
+      /* if (event === "modelSynced" && data?.model?.name === "ChatRoom") {
         console.log(`Model finished sync: ${data.model.name}`);
         setUserLoading(false);
         //setMe(user);
+      } */
+      /* console.log("event", event);
+      console.log("data", data); */
+      if (
+        event === "outboxMutationProcessed" &&
+        data.model === Message &&
+        !["DELIVERED", "READ"].includes(data.element.status)
+      ) {
+        //set message status to delivered
+        DataStore.save(
+          Message.copyOf(data.element, (updated) => {
+            updated.status = "DELIVERED";
+          })
+        );
       }
     });
     // Remove listener
     return () => listener();
-  }, []); */
+  }, []);
 
   if (!fontLoaded && userLoading) {
     return <AppLoading />;

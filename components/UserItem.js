@@ -1,12 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Auth, DataStore } from "aws-amplify";
+import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { ChatRoom, ChatRoomUser, User } from "../src/models";
 
 const UserItem = ({ user }) => {
   const navigation = useNavigation();
-  console.log(user);
+  //console.log(user);
   const onPress = async () => {
     // TODO if there is already a chat room between these 2 users
     // then redirect to the existing chat room

@@ -8,7 +8,8 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Auth, DataStore } from "aws-amplify";
+import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { ChatRoomUser, Message } from "../src/models";
 import moment from "moment";
 
@@ -39,6 +40,19 @@ const Chat = ({ chatRoom }) => {
       setLastMessage
     );
   }, []);
+  /* useEffect(() => {
+    const subscription = DataStore.observe(Message).subscribe((msg) => {
+      //console.log(msg.model, msg.opType, msg.element);
+      if (msg.model === Message && msg.opType === "INSERT") {
+        console.log("change");
+        DataStore.query(Message, chatRoom.chatRoomLastMessageId).then(
+          setLastMessage
+        );
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [lastMessage]); */
   //console.log(lastMessage.createdAt);
   const navigation = useNavigation();
   const onPress = () => {

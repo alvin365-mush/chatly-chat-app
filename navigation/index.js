@@ -17,7 +17,7 @@ import TopBar from "../components/TopBar";
 import Messages from "../src/screens/Messages";
 import InChatScreen from "../src/screens/InChatScreen";
 import UsersScreen from "../src/screens/UsersScreen";
-import { DataStore } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import { ChatRoomUser } from "../src/models";
 import InChatHeader from "./InChatHeader";
 
@@ -52,7 +52,7 @@ function RootNavigator() {
         name="UsersScreen"
         component={UsersScreen}
         options={{
-          title: "Users",
+          title: "New Chat",
           headerShown: true,
         }}
       />

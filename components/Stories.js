@@ -1,4 +1,5 @@
-import { Auth, DataStore } from "aws-amplify";
+import { Auth } from "aws-amplify";
+import { DataStore } from "@aws-amplify/datastore";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { ChatRoomUser } from "../src/models";
