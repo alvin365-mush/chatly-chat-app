@@ -392,7 +392,7 @@ export const schema = {
                 "lastOnlineAt": {
                     "name": "lastOnlineAt",
                     "isArray": false,
-                    "type": "AWSTimestamp",
+                    "type": "Int",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -450,5 +450,5 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "version": "87695dc3da85e4332f9953c7e972629c"
+    "version": "4a524d1f9374d5e85786835702276f5b"
 };

@@ -83,12 +83,16 @@ const TopBar = () => {
         onRequestClose={hideMenu}
       >
         <MenuItem onPress={hideMenu}>
-          <View style={{ alignItems: "center", flexDirection: "row" }}>
-            <TouchableOpacity onPress={signOut}>
+          <TouchableOpacity onPress={signOut}>
+            <View
+              style={{ alignItems: "center", flexDirection: "row" }}
+              onPress={signOut}
+            >
               <FontAwesome5 name="sign-out-alt" size={24} color="#1D50F8" />
-            </TouchableOpacity>
-            <Text style={{ marginLeft: 5 }}>Log out</Text>
-          </View>
+
+              <Text style={{ marginLeft: 5 }}>Log out</Text>
+            </View>
+          </TouchableOpacity>
         </MenuItem>
         {/* <MenuItem onPress={hideMenu}>Menu item 2</MenuItem>
         <MenuItem disabled>Disabled item</MenuItem>

@@ -21,7 +21,7 @@ import { DataStore } from "@aws-amplify/datastore";
 import { withAuthenticator } from "aws-amplify-react-native";
 import config from "./src/aws-exports";
 import SplashScreen from "./components/SplashScreen";
-import { Message } from "./src/models";
+import { Message, User } from "./src/models";
 Amplify.configure({
   ...config,
   Analytics: {
@@ -47,6 +47,18 @@ function App() {
       title: "Groups",
     },
   ];
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+  const fetchUser = async () => {
+    const userData = await Auth.currentAuthenticatedUser();
+    const user = await DataStore.query(User, userData.attributes.sub);
+    if (user) {
+      setUser(user);
+    }
+  };
   useEffect(() => {
     // Create listener
     const listener = Hub.listen("datastore", async (hubData) => {
@@ -74,7 +86,19 @@ function App() {
     // Remove listener
     return () => listener();
   }, []);
-
+  useEffect(() => {
+    updateLastSeen();
+  }, [user]);
+  const updateLastSeen = async () => {
+    if (!user) {
+      return;
+    }
+    await DataStore.save(
+      User.copyOf(user, (updated) => {
+        updated.lastOnlineAt = +new Date();
+      })
+    );
+  };
   if (!fontLoaded && userLoading) {
     return <AppLoading />;
   }

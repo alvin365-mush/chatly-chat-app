@@ -13,6 +13,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import { ChatRoomUser } from "../src/models";
 import * as ImagePicker from "expo-image-picker";
 import MessageInput from "../components/MessageInput";
+import moment from "moment";
 
 function InChatHeader({ id, children }) {
   const { width } = useWindowDimensions();
@@ -61,11 +62,24 @@ function InChatHeader({ id, children }) {
       setUser(
         fetchedUsers.find((user) => user.id !== authUser.attributes.sub) || null
       );
-      console.log(user);
+      //console.log(user);
     };
     fetchUsers();
   }, []);
-
+  const getLastOnline = () => {
+    if (!user?.lastOnlineAt) {
+      return null;
+    }
+    console.log(user?.lastOnlineAt);
+    const lastOnlineDiff = moment().diff(moment(user?.lastOnlineAt));
+    if (lastOnlineDiff < 5 * 6 * 1000) {
+      //less than 5 minutes
+      return "online";
+    } else {
+      return `last seen ${moment(user?.lastOnlineAt).fromNow()}`;
+    }
+  };
+  //console.log(moment(user?.lastOnlineAt).from(moment()));
   return (
     <View
       style={{
@@ -82,13 +96,16 @@ function InChatHeader({ id, children }) {
           }}
           style={{ width: 30, height: 30, borderRadius: 30 }}
         />
-        <Text
-          numberOfLines={1}
-          ellipsizeMode="tail"
-          style={{ width: 110, marginLeft: 10, fontWeight: "bold" }}
-        >
-          {user?.name}
-        </Text>
+        <View style={{ marginLeft: 10 }}>
+          <Text
+            numberOfLines={1}
+            ellipsizeMode="tail"
+            style={{ width: 110, fontWeight: "bold" }}
+          >
+            {user?.name}
+          </Text>
+          <Text style={{ color: "gray", fontSize: 12 }}>{getLastOnline()}</Text>
+        </View>
       </View>
       <TouchableOpacity onPress={pickImage}>
         <FontAwesome name="camera-retro" size={24} color="#595959" style={{}} />
