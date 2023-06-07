@@ -1,15 +1,15 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-chatly-staging-132930-authRole",
-      "UnauthRoleArn": "arn:aws:iam::389108173262:role/amplify-chatly-staging-132930-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::389108173262:role/amplify-chatly-staging-132930-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "amplify-chatly-staging-132930-deployment",
-      "UnauthRoleName": "amplify-chatly-staging-132930-unauthRole",
-      "StackName": "amplify-chatly-staging-132930",
-      "StackId": "arn:aws:cloudformation:us-east-2:389108173262:stack/amplify-chatly-staging-132930/d1043d10-0283-11ec-a136-0aa02198e858",
-      "AmplifyAppId": "d72j9pa2jh1g4"
+      "AuthRoleName": "",
+      "UnauthRoleArn": "",
+      "AuthRoleArn": "",
+      "Region": "",
+      "DeploymentBucketName": "",
+      "UnauthRoleName": "",
+      "StackName": "",
+      "StackId": "",
+      "AmplifyAppId": ""
     },
     "categories": {
       "auth": {
@@ -17,8 +17,8 @@
       },
       "function": {
         "chatlyPostConfirmation": {
-          "deploymentBucketName": "amplify-chatly-staging-132930-deployment",
-          "s3Key": "amplify-builds/chatlyPostConfirmation-6e744268523161395039-build.zip"
+          "deploymentBucketName": "",
+          "s3Key": ""
         }
       }
     }
